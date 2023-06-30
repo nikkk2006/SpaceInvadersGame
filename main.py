@@ -1,4 +1,6 @@
 import pygame
+import sys
+from sprites.space import Space
 pygame.init()
 
 
@@ -8,6 +10,7 @@ def main():
     HEIGHT = 700
     FPS = 60
     RUNNING = True
+    BLACK = (0, 0, 0)
 
     # Создание окна
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -15,6 +18,7 @@ def main():
     clock = pygame.time.Clock()
 
     # Спрайты
+    space = Space()
 
     while RUNNING:
         # Частота обновления экрана
@@ -24,11 +28,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                sys.exit()
 
         # Рендеринг
-        screen.fill((0, 0, 0))
+        screen.fill(BLACK)
+        space.draw(screen)
 
         # Обновление спрайтов
+        space.update()
 
         # Обновление экрана
         pygame.display.update()
