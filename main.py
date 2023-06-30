@@ -1,6 +1,7 @@
 import pygame
 import sys
 from sprites.space import Space
+from sprites.spaceship import Spaceship
 pygame.init()
 
 
@@ -19,6 +20,7 @@ def main():
 
     # Спрайты
     space = Space()
+    spaceship = Spaceship()
 
     while RUNNING:
         # Частота обновления экрана
@@ -33,9 +35,11 @@ def main():
         # Рендеринг
         screen.fill(BLACK)
         space.draw(screen)
+        spaceship.draw(screen)
 
         # Обновление спрайтов
         space.update()
+        spaceship.update()
 
         # Обновление экрана
         pygame.display.update()
