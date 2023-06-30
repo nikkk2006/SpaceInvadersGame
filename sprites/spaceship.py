@@ -18,4 +18,9 @@ class Spaceship(pygame.sprite.Sprite):
         surface.blit(self.image, self.rect)
 
     def update(self):
-        pass
+        key = pygame.key.get_pressed()
+
+        if (key[pygame.K_LEFT] or key[pygame.K_a]) and self.rect.left >= 0:
+            self.rect.x -= 3
+        elif (key[pygame.K_RIGHT] or key[pygame.K_d]) and self.rect.right <= self.surface.get_width():
+            self.rect.x += 3
