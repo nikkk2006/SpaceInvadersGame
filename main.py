@@ -3,6 +3,7 @@ import sys
 from sprites.space import Space
 from sprites.spaceship import Spaceship
 from sprites.alien import Alien
+from sprites.explosion import Explosion
 pygame.init()
 
 
@@ -26,6 +27,7 @@ def main():
     aliens = pygame.sprite.Group()
     alien = Alien()
     alien.add(aliens)
+    explosions = pygame.sprite.Group()
 
     while RUNNING:
         # Частота обновления экрана
@@ -36,6 +38,17 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
+        for alien in aliens.sprites():
+            if pygame.sprite.spritecollide(alien, player_bullets, True, pygame.sprite.collide_mask):
+                alien.kill()
+                explosion = Explosion((0, 0))
+                explosion.add(explosions)
+
+                # добавление звука взрыва
+                explosion_sound = pygame.mixer.Sound(r"assets\sounds\explosion.wav")
+                explosion_sound.set_volume(0.3)
+                explosion_sound.play()
 
         # Рендеринг
         screen.fill(BLACK)
@@ -49,11 +62,15 @@ def main():
         for alien in aliens:
             alien.draw(screen)
 
+        for explosion in explosions:
+            explosion.draw(screen)
+
         # Обновление спрайтов
         space.update()
         player_bullets.update()
         spaceship.update()
         aliens.update()
+        explosions.update()
 
         # Обновление экрана
         pygame.display.update()
