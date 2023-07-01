@@ -21,6 +21,10 @@ class Spaceship(pygame.sprite.Sprite):
         key = pygame.key.get_pressed()
 
         if (key[pygame.K_LEFT] or key[pygame.K_a]) and self.rect.left >= 0:
-            self.rect.x -= 3
+            self.rect.x -= 5
         elif (key[pygame.K_RIGHT] or key[pygame.K_d]) and self.rect.right <= self.surface.get_width():
-            self.rect.x += 3
+            self.rect.x += 5
+        elif (key[pygame.K_UP] or key[pygame.K_w]) and self.rect.top >= 0:
+            self.rect.y -= 5
+        elif (key[pygame.K_DOWN] or key[pygame.K_s]) and self.rect.bottom <= self.surface.get_height():
+            self.rect.y += 5
