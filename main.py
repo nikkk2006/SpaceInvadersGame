@@ -20,7 +20,8 @@ def main():
 
     # Спрайты
     space = Space()
-    spaceship = Spaceship()
+    player_bullets = pygame.sprite.Group()
+    spaceship = Spaceship(player_bullets)
 
     while RUNNING:
         # Частота обновления экрана
@@ -35,10 +36,15 @@ def main():
         # Рендеринг
         screen.fill(BLACK)
         space.draw(screen)
+
+        for bullet in player_bullets:
+            bullet.draw(screen)
+
         spaceship.draw(screen)
 
         # Обновление спрайтов
         space.update()
+        player_bullets.update()
         spaceship.update()
 
         # Обновление экрана
