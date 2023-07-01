@@ -2,6 +2,7 @@ import pygame
 import sys
 from sprites.space import Space
 from sprites.spaceship import Spaceship
+from sprites.alien import Alien
 pygame.init()
 
 
@@ -22,6 +23,9 @@ def main():
     space = Space()
     player_bullets = pygame.sprite.Group()
     spaceship = Spaceship(player_bullets)
+    aliens = pygame.sprite.Group()
+    alien = Alien()
+    alien.add(aliens)
 
     while RUNNING:
         # Частота обновления экрана
@@ -42,10 +46,14 @@ def main():
 
         spaceship.draw(screen)
 
+        for alien in aliens:
+            alien.draw(screen)
+
         # Обновление спрайтов
         space.update()
         player_bullets.update()
         spaceship.update()
+        aliens.update()
 
         # Обновление экрана
         pygame.display.update()
