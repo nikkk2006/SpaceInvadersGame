@@ -49,10 +49,6 @@ class Spaceship(pygame.sprite.Sprite):
             self.rect.x -= 5
         elif (key[pygame.K_RIGHT] or key[pygame.K_d]) and self.rect.right <= self.surface.get_width():
             self.rect.x += 5
-        elif (key[pygame.K_UP] or key[pygame.K_w]) and self.rect.top >= 0:
-            self.rect.y -= 5
-        elif (key[pygame.K_DOWN] or key[pygame.K_s]) and self.rect.bottom <= self.surface.get_height():
-            self.rect.y += 5
 
         now = pygame.time.get_ticks()
         if key[pygame.K_SPACE] and now - self.last_shot >= self.cooldown:

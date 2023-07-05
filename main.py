@@ -5,6 +5,7 @@ from sprites.spaceship import Spaceship
 from sprites.alien import generateAliens
 from sprites.explosion import Explosion
 from sprites.health import HealthBar
+from sprites.game import Game
 pygame.init()
 
 
@@ -32,6 +33,7 @@ def main():
     alien_bullets = pygame.sprite.Group()
     generateAliens(aliens, alien_bullets)
     explosions = pygame.sprite.Group()
+    game = pygame.sprite.GroupSingle()
 
     while RUNNING:
         # Частота обновления экрана
@@ -74,6 +76,17 @@ def main():
                     damage_sound = pygame.mixer.Sound(r"assets\sounds\damage.wav")
                     damage_sound.play()
 
+        # обработка конца игры
+        if not aliens.sprites():
+            game.add(Game("Y O U  W I N"))
+            key = pygame.key.get_pressed()
+            if key[pygame.K_ESCAPE]:
+                return main()
+        elif not spaceships.sprites():
+            game.add(Game("G A M E  O V E R"))
+            key = pygame.key.get_pressed()
+            if key[pygame.K_ESCAPE]:
+                return main()
 
         # Рендеринг
         screen.fill(BLACK)
@@ -95,6 +108,8 @@ def main():
 
         for explosion in explosions:
             explosion.draw(screen)
+
+        game.draw(screen)
 
         # Обновление спрайтов
         space.update()
