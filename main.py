@@ -24,6 +24,8 @@ def main():
     space = Space()
     player_bullets = pygame.sprite.Group()
     spaceship = Spaceship(player_bullets)
+    spaceships = pygame.sprite.GroupSingle()
+    spaceships.add(spaceship)
     aliens = pygame.sprite.Group()
     alien_bullets = pygame.sprite.Group()
     generateAliens(aliens, alien_bullets)
@@ -43,7 +45,19 @@ def main():
             if pygame.sprite.spritecollide(alien, player_bullets, True, pygame.sprite.collide_mask):
                 alien.kill()
                 explosion = Explosion(alien.rect.center)
-                explosion.add(explosions)
+                explosions.add(explosion)
+
+                # добавление звука взрыва
+                explosion_sound = pygame.mixer.Sound(r"assets\sounds\explosion.wav")
+                explosion_sound.set_volume(0.3)
+                explosion_sound.play()
+
+        # коллизия игрока и пуль пришельцев
+        for spaceship in spaceships.sprites():
+            if pygame.sprite.spritecollide(spaceship, alien_bullets, True, pygame.sprite.collide_mask):
+                spaceship.kill()
+                explosion = Explosion(spaceship.rect.center)
+                explosions.add(explosion)
 
                 # добавление звука взрыва
                 explosion_sound = pygame.mixer.Sound(r"assets\sounds\explosion.wav")
@@ -57,7 +71,8 @@ def main():
         for bullet in player_bullets:
             bullet.draw(screen)
 
-        spaceship.draw(screen)
+        for spaceship in spaceships:
+            spaceship.draw(screen)
 
         for alien in aliens:
             alien.draw(screen)
@@ -71,7 +86,7 @@ def main():
         # Обновление спрайтов
         space.update()
         player_bullets.update()
-        spaceship.update()
+        spaceships.update()
         aliens.update()
         alien_bullets.update()
         explosions.update()
