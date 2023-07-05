@@ -4,6 +4,7 @@ from sprites.space import Space
 from sprites.spaceship import Spaceship
 from sprites.alien import generateAliens
 from sprites.explosion import Explosion
+from sprites.health import HealthBar
 pygame.init()
 
 
@@ -26,6 +27,7 @@ def main():
     spaceship = Spaceship(player_bullets)
     spaceships = pygame.sprite.GroupSingle()
     spaceships.add(spaceship)
+    health_bar = HealthBar(spaceship.health)
     aliens = pygame.sprite.Group()
     alien_bullets = pygame.sprite.Group()
     generateAliens(aliens, alien_bullets)
@@ -41,6 +43,7 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+        # коллизия пришельцев с пулями игрока
         for alien in aliens.sprites():
             if pygame.sprite.spritecollide(alien, player_bullets, True, pygame.sprite.collide_mask):
                 alien.kill()
@@ -55,14 +58,22 @@ def main():
         # коллизия игрока и пуль пришельцев
         for spaceship in spaceships.sprites():
             if pygame.sprite.spritecollide(spaceship, alien_bullets, True, pygame.sprite.collide_mask):
-                spaceship.kill()
+                spaceship.health -= 1
+                health_bar.hearts.pop()
                 explosion = Explosion(spaceship.rect.center)
                 explosions.add(explosion)
 
-                # добавление звука взрыва
-                explosion_sound = pygame.mixer.Sound(r"assets\sounds\explosion.wav")
-                explosion_sound.set_volume(0.3)
-                explosion_sound.play()
+                if spaceship.health < 1:
+
+                    # добавление звука взрыва
+                    explosion_sound = pygame.mixer.Sound(r"assets\sounds\explosion.wav")
+                    explosion_sound.set_volume(0.3)
+                    explosion_sound.play()
+                    spaceship.kill()
+                else:
+                    damage_sound = pygame.mixer.Sound(r"assets\sounds\damage.wav")
+                    damage_sound.play()
+
 
         # Рендеринг
         screen.fill(BLACK)
@@ -73,6 +84,8 @@ def main():
 
         for spaceship in spaceships:
             spaceship.draw(screen)
+
+        health_bar.draw(screen)
 
         for alien in aliens:
             alien.draw(screen)

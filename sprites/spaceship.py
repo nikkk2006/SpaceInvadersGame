@@ -35,6 +35,9 @@ class Spaceship(pygame.sprite.Sprite):
         self.cooldown = 500
         self.last_shot = pygame.time.get_ticks()
 
+        # здоровье корабля
+        self.health = 3
+
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
