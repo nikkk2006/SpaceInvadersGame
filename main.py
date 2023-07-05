@@ -19,6 +19,7 @@ def main():
 
     # Создание окна
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_icon(pygame.image.load("assets\images\icon.png"))
     pygame.display.set_caption("Space Invaders")
     clock = pygame.time.Clock()
 
