@@ -2,7 +2,7 @@ import pygame
 import sys
 from sprites.space import Space
 from sprites.spaceship import Spaceship
-from sprites.alien import Alien
+from sprites.alien import generateAliens
 from sprites.explosion import Explosion
 pygame.init()
 
@@ -25,8 +25,7 @@ def main():
     player_bullets = pygame.sprite.Group()
     spaceship = Spaceship(player_bullets)
     aliens = pygame.sprite.Group()
-    alien = Alien()
-    alien.add(aliens)
+    generateAliens(aliens)
     explosions = pygame.sprite.Group()
 
     while RUNNING:
@@ -42,7 +41,7 @@ def main():
         for alien in aliens.sprites():
             if pygame.sprite.spritecollide(alien, player_bullets, True, pygame.sprite.collide_mask):
                 alien.kill()
-                explosion = Explosion((0, 0))
+                explosion = Explosion(alien.rect.center)
                 explosion.add(explosions)
 
                 # добавление звука взрыва
