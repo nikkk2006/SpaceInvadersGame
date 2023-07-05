@@ -25,7 +25,8 @@ def main():
     player_bullets = pygame.sprite.Group()
     spaceship = Spaceship(player_bullets)
     aliens = pygame.sprite.Group()
-    generateAliens(aliens)
+    alien_bullets = pygame.sprite.Group()
+    generateAliens(aliens, alien_bullets)
     explosions = pygame.sprite.Group()
 
     while RUNNING:
@@ -61,6 +62,9 @@ def main():
         for alien in aliens:
             alien.draw(screen)
 
+        for alien_bullet in alien_bullets:
+            alien_bullet.draw(screen)
+
         for explosion in explosions:
             explosion.draw(screen)
 
@@ -69,6 +73,7 @@ def main():
         player_bullets.update()
         spaceship.update()
         aliens.update()
+        alien_bullets.update()
         explosions.update()
 
         # Обновление экрана
